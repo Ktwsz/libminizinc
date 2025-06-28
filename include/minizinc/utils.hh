@@ -99,10 +99,10 @@ inline bool assign_string(std::string* pS, const std::string& s) {
 /// A simple per-cmdline option parser
 class CLOParser {
   int& _i;  // current item
-  std::vector<std::string>& _argv;
+  std::vector<std::string> const& _argv;
 
 public:
-  CLOParser(int& ii, std::vector<std::string>& av) : _i(ii), _argv(av) {}
+  CLOParser(int& ii, std::vector<std::string> const& av) : _i(ii), _argv(av) {}
   template <class Value = int>
   bool get(const char* names,           // space-separated option list
            Value* pResult = nullptr,    // pointer to value storage

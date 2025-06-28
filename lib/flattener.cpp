@@ -170,7 +170,7 @@ void Flattener::printHelp(ostream& os) const {
      << "  -w --disable-warnings\n    Supress all warnings" << std::endl;
 }
 
-bool Flattener::processOption(int& i, std::vector<std::string>& argv,
+bool Flattener::processOption(int& i, std::vector<std::string> const& argv,
                               const std::string& workingDir) {
   CLOParser cop(i, argv);
   string buffer;
