@@ -1269,42 +1269,49 @@ public:
   using pointer = Expression* const*;
   using reference = Expression* const&;
 
+  ExpressionContainerIterator() : _e(nullptr) {}
   ExpressionContainerIterator(Expression* const* e) : _e(e) {}
 
-  reference operator*() const { return *_e; }
-  pointer operator->() const { return &*_e; }
+  reference operator*() const { assert(_e); return *_e; }
+  pointer operator->() const { assert(_e); return &*_e; }
   ExpressionContainerIterator& operator++() {
+assert(_e); 
     ++_e;
     return *this;
   }
   ExpressionContainerIterator& operator--() {
+assert(_e); 
     --_e;
     return *this;
   }
-  ExpressionContainerIterator operator++(int) { return ExpressionContainerIterator(_e++); }
-  ExpressionContainerIterator operator--(int) { return ExpressionContainerIterator(_e--); }
+  ExpressionContainerIterator operator++(int) { assert(_e); return ExpressionContainerIterator(_e++); }
+  ExpressionContainerIterator operator--(int) { assert(_e); return ExpressionContainerIterator(_e--); }
   ExpressionContainerIterator operator+(const difference_type& n) const {
+assert(_e); 
     return ExpressionContainerIterator(_e + n);
   }
   ExpressionContainerIterator& operator+=(const difference_type& n) {
+assert(_e); 
     _e += n;
     return *this;
   }
   ExpressionContainerIterator operator-(const difference_type& n) const {
+assert(_e); 
     return ExpressionContainerIterator(_e - n);
   }
   ExpressionContainerIterator& operator-=(const difference_type& n) {
+assert(_e); 
     _e -= n;
     return *this;
   }
-  reference operator[](const difference_type& n) const { return *(_e + n); }
-  bool operator==(const ExpressionContainerIterator& it) const { return _e == it._e; }
-  bool operator!=(const ExpressionContainerIterator& it) const { return !(*this == it); }
-  bool operator<(const ExpressionContainerIterator& it) const { return _e < it._e; }
-  bool operator>(const ExpressionContainerIterator& it) const { return _e > it._e; }
-  bool operator<=(const ExpressionContainerIterator& it) const { return _e <= it._e; }
-  bool operator>=(const ExpressionContainerIterator& it) const { return _e >= it._e; }
-  difference_type operator-(const ExpressionContainerIterator& it) const { return _e - it._e; }
+  reference operator[](const difference_type& n) const { assert(_e); return *(_e + n); }
+  bool operator==(const ExpressionContainerIterator& it) const { assert(_e); return _e == it._e; }
+  bool operator!=(const ExpressionContainerIterator& it) const { assert(_e); return !(*this == it); }
+  bool operator<(const ExpressionContainerIterator& it) const { assert(_e); return _e < it._e; }
+  bool operator>(const ExpressionContainerIterator& it) const { assert(_e); return _e > it._e; }
+  bool operator<=(const ExpressionContainerIterator& it) const { assert(_e); return _e <= it._e; }
+  bool operator>=(const ExpressionContainerIterator& it) const { assert(_e); return _e >= it._e; }
+  difference_type operator-(const ExpressionContainerIterator& it) const { assert(_e); return _e - it._e; }
 };
 
 /// \brief A predicate or function call expression
