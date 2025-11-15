@@ -178,6 +178,8 @@ public:
   /// Remove model \a m from root set
   static void remove(GCMarker* m);
 
+  static void resetHeap();
+
   /// Put a mark on the trail
   static void mark();
   /// Add a trail entry

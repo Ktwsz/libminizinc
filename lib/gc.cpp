@@ -237,6 +237,17 @@ protected:
               << (_gcThreshold / 1024) << "\n";
 #endif
   }
+
+  void reset() {
+    HeapPage* p = _page;
+    while (p != nullptr) {
+      HeapPage* pf = p;
+      p = p->next;
+
+      ::free(pf);
+    }
+  }
+
   void rungc() {
     if (_allocedMem > _gcThreshold) {
       trigger();
@@ -414,6 +425,11 @@ void GC::remove(GCMarker* m) {
       gc->_heap->_rootset = m->_rootsPrev;
     }
   }
+}
+
+void GC::resetHeap() {
+  GC* gc = GC::gc();
+  gc->_heap->reset();
 }
 
 void* GC::alloc(size_t size) {
