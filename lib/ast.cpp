@@ -1790,7 +1790,7 @@ void Item::mark(Item* item) {
       item->_gcMark = 0;  // need to reset so that Expression::mark works
       Expression::mark(item->cast<VarDeclI>()->e());
 #if defined(MINIZINC_GC_STATS)
-      GC::stats()[item->cast<VarDeclI>()->e()->Expression::eid()].inmodel++;
+      GC::stats()[MiniZinc::Expression::eid(item->cast<VarDeclI>()->e())].inmodel++;
 #endif
       break;
     case Item::II_ASN:
@@ -1801,7 +1801,7 @@ void Item::mark(Item* item) {
     case Item::II_CON:
       Expression::mark(item->cast<ConstraintI>()->e());
 #if defined(MINIZINC_GC_STATS)
-      GC::stats()[item->cast<ConstraintI>()->e()->Expression::eid()].inmodel++;
+      GC::stats()[MiniZinc::Expression::eid(item->cast<ConstraintI>()->e())].inmodel++;
 #endif
       break;
     case Item::II_SOL: {
