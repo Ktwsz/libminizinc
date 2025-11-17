@@ -518,40 +518,6 @@ OptimizeRegistry::ConstraintStatus o_int_le(EnvI& env, Item* i, Call* c, Express
   return OptimizeRegistry::CS_OK;
 }
 
-class Register {
-private:
-  Model* _keepAliveModel;
-
-public:
-  Register() {
-    GCLock lock;
-    _keepAliveModel = new Model;
-    ASTString id_element("array_int_element");
-    ASTString id_var_element("array_var_int_element");
-    std::vector<Expression*> e;
-    e.push_back(new StringLit(Location(), id_element));
-    e.push_back(new StringLit(Location(), id_var_element));
-    _keepAliveModel->addItem(new ConstraintI(Location(), new ArrayLit(Location(), e)));
-    OptimizeRegistry::registry().reg(Constants::constants().ids.int_.lin_eq, o_linear);
-    OptimizeRegistry::registry().reg(Constants::constants().ids.int_.lin_le, o_linear);
-    OptimizeRegistry::registry().reg(Constants::constants().ids.int_.lin_ne, o_linear);
-    OptimizeRegistry::registry().reg(Constants::constants().ids.int_.div, o_div);
-    OptimizeRegistry::registry().reg(Constants::constants().ids.int_.times, o_times);
-    OptimizeRegistry::registry().reg(id_element, o_element);
-    OptimizeRegistry::registry().reg(Constants::constants().ids.lin_exp, o_lin_exp);
-    OptimizeRegistry::registry().reg(id_var_element, o_element);
-    OptimizeRegistry::registry().reg(Constants::constants().ids.clause, o_clause);
-    OptimizeRegistry::registry().reg(Constants::constants().ids.bool_.clause, o_clause);
-    OptimizeRegistry::registry().reg(Constants::constants().ids.forall, o_forall);
-    OptimizeRegistry::registry().reg(Constants::constants().ids.exists, o_exists);
-    OptimizeRegistry::registry().reg(Constants::constants().ids.bool_.not_, o_not);
-    OptimizeRegistry::registry().reg(Constants::constants().ids.set_.in, o_set_in);
-    OptimizeRegistry::registry().reg(Constants::constants().ids.int_.ne, o_int_ne);
-    OptimizeRegistry::registry().reg(Constants::constants().ids.int_.le, o_int_le);
-  }
-  ~Register() { delete _keepAliveModel; }
-} _r;
-
 }  // namespace Optimizers
 
 }  // namespace MiniZinc
