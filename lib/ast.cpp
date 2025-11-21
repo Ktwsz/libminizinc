@@ -504,28 +504,10 @@ void ArrayLit::compress(const std::vector<Expression*>& v, const std::vector<int
   if (allFlat) {
     flat(true);
   }
-  if (v.size() >= 4 && Expression::equal(v[0], v[1]) && Expression::equal(v[1], v[2]) &&
-      Expression::equal(v[2], v[3])) {
-    std::vector<Expression*> compress(v.size());
-    compress[0] = v[0];
-    int k = 4;
-    while (k < v.size() && Expression::equal(v[k], v[0])) {
-      k++;
-    }
-    int i = 1;
-    for (; k < v.size(); k++) {
-      compress[i++] = v[k];
-    }
-    compress.resize(i);
-    _u.v = ASTExprVec<Expression>(compress).vec();
-    _u.v->flag(true);
+  _u.v = ASTExprVec<Expression>(v).vec();
+  if (dims.size() != 2 || dims[0] != 1) {
+    // only allocate dims vector if it is not a 1d array indexed from 1
     _dims = ASTIntVec(dims);
-  } else {
-    _u.v = ASTExprVec<Expression>(v).vec();
-    if (dims.size() != 2 || dims[0] != 1) {
-      // only allocate dims vector if it is not a 1d array indexed from 1
-      _dims = ASTIntVec(dims);
-    }
   }
 }
 
